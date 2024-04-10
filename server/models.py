@@ -18,14 +18,15 @@ class Author(db.Model):
     def validate_name(self, key, name):
         if len(name) <= 0:
             raise ValueError("Name is required")
-        if Author.query.filter(Author.name == name).first():
-            raise ValueError("Name must be unique.")
+        else:
+            if Author.query.filter(Author.name == name).first():
+                raise ValueError("Name must be unique.")
         return name
     
     # Validator for phone_number
     @validates("phone_number")
     def validate_phone_number(self, key, phone_number):
-        if len(phone_number) != 10:
+        if len(phone_number) != 10 or not phone_number.isdigit():
             raise ValueError("Phone number must be exactly ten digits.")
         return phone_number
     
